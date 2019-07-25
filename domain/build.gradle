@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+def config = rootProject.ext.config
+android {
+    compileSdkVersion config.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    def version = rootProject.ext.dependenciesVersion
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$version.rxAndroid"
+    implementation "io.reactivex.rxjava2:rxjava:$version.rxJava"
+    implementation "io.reactivex.rxjava2:rxkotlin:$version.rxKotlin"
+    testImplementation "junit:junit:$version.jUnit"
+    androidTestImplementation "androidx.test:runner:$version.testRunnerAndroidX"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$version.espressoCoreAndroidX"
+}

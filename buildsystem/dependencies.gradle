@@ -1,0 +1,38 @@
+ext {
+
+    config = [
+            applicationId            : "herald.company.cleanapp",
+            compileSdkVersion        : 28,
+            minSdkVersion            : 19,
+            targetSdkVersion         : 28,
+            versionCode              : 1,
+            versionName              : "1.0",
+            flavorDimensions         : "version",
+            androidJUnitRunner       : "androidx.test.runner.AndroidJUnitRunner"
+    ]
+
+    dependenciesVersion = [
+            androidSupportAndroidX          : "1.1.0-beta01",
+            appCompatAndroidX               : "1.1.0-rc01",
+            coreKTXAndroidX                 : "1.2.0-alpha02",
+            constraintLayoutAndroidX        : "1.1.3",
+            cardViewAndroidX                : "1.0.0",
+            navigationAndroidX              : "2.0.0",
+            lifeCycleExtensionAndroidX      : "2.0.0",
+            materialDesign                  : "1.1.0-alpha08",
+            jUnit                           : "4.12",
+            testRunnerAndroidX              : "1.3.0-alpha01",
+            espressoCoreAndroidX            : "3.3.0-alpha01",
+            rxAndroid                       : "2.1.1",
+            rxJava                          : "2.2.6",
+            rxKotlin                        : "2.3.0",
+            rxSharedPreferences             : "2.0.0",
+            securePreferences               : "0.1.4",
+            koin                            : "2.0.1",
+            retrofit                        : "2.4.0",
+            gson                            : "2.3.0",
+            okhttp                          : "3.11.0",
+            timber                          : "4.7.1",
+    ]
+
+}

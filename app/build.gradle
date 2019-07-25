@@ -1,0 +1,118 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
+def config = rootProject.ext.config
+def clientPropertiesFile = rootProject.file("client.properties")
+def versionPropertiesFile = rootProject.file("version.properties")
+def properties = new Properties()
+properties.load(new FileInputStream(clientPropertiesFile))
+properties.load(new FileInputStream(versionPropertiesFile))
+android {
+    compileSdkVersion config.compileSdkVersion
+    flavorDimensions config.flavorDimensions
+    defaultConfig {
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner config.androidJUnitRunner
+    }
+    buildTypes {
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        dev {
+            int versionMajor = Integer.parseInt(properties['devVersionMajor'])
+            int versionMinor = Integer.parseInt(properties['devVersionMinor'])
+            int versionPatch = Integer.parseInt(properties['devVersionPatch'])
+            int newVersionCode = config.minSdkVersion * 10000000 +
+                    versionMajor * 10000 + versionMinor * 100 + versionPatch
+            def newVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+            versionName newVersionName
+            versionCode newVersionCode
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            dimension "version"
+            resValue "string", "app_name", "CleanApp Dev"
+            resValue "string", "app_version_number", "v${versionMajor}.${versionMinor}.${versionPatch}"
+            resValue "string", "app_version", "${versionName}${versionNameSuffix}"
+            buildConfigField 'String', 'HOST', properties['hostDev']
+            buildConfigField 'String', 'CLIENT_ID', properties['clientIdDev']
+            buildConfigField 'String', 'CLIENT_SECRET', properties['clientSecretDev']
+            buildConfigField 'String', 'CLIENT_API_VERSION', properties['clientApiVersion']
+        }
+        production {
+            int versionMajor = Integer.parseInt(properties['productionVersionMajor'])
+            int versionMinor = Integer.parseInt(properties['productionVersionMinor'])
+            int versionPatch = Integer.parseInt(properties['productionVersionPatch'])
+            int newVersionCode = config.minSdkVersion * 10000000 +
+                    versionMajor * 10000 + versionMinor * 100 + versionPatch
+            def newVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+            versionName newVersionName
+            versionCode newVersionCode
+            dimension "version"
+            resValue "string", "app_name", "CleanApp"
+            resValue "string", "app_version_number", "v${versionMajor}.${versionMinor}.${versionPatch}"
+            resValue "string", "app_version", "${versionName}${versionNameSuffix}"
+            buildConfigField 'String', 'HOST', properties['hostProduction']
+            buildConfigField 'String', 'CLIENT_ID', properties['clientIdProduction']
+            buildConfigField 'String', 'CLIENT_SECRET', properties['clientSecretProduction']
+            buildConfigField 'String', 'CLIENT_API_VERSION', properties['clientApiVersion']
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    def version = rootProject.ext.dependenciesVersion
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // views
+    implementation "androidx.appcompat:appcompat:$version.appCompatAndroidX"
+    implementation "androidx.recyclerview:recyclerview:$version.androidSupportAndroidX"
+    implementation "androidx.cardview:cardview:$version.cardViewAndroidX"
+    implementation "androidx.core:core-ktx:$version.coreKTXAndroidX"
+    implementation "androidx.constraintlayout:constraintlayout:$version.constraintLayoutAndroidX"
+    implementation "androidx.navigation:navigation-fragment-ktx:$version.navigationAndroidX"
+    implementation "androidx.navigation:navigation-ui-ktx:$version.navigationAndroidX"
+    implementation "androidx.lifecycle:lifecycle-extensions:$version.lifeCycleExtensionAndroidX"
+    implementation "com.google.android.material:material:$version.materialDesign"
+
+    // reactive
+    implementation "io.reactivex.rxjava2:rxandroid:$version.rxAndroid"
+    implementation "io.reactivex.rxjava2:rxjava:$version.rxJava"
+    implementation "io.reactivex.rxjava2:rxkotlin:$version.rxKotlin"
+
+    // dependency injection
+    implementation "org.koin:koin-androidx-scope:$version.koin"
+    implementation "org.koin:koin-androidx-viewmodel:$version.koin"
+    implementation "org.koin:koin-androidx-ext:$version.koin"
+
+    // data source
+    implementation "com.squareup.retrofit2:retrofit:$version.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$version.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$version.gson"
+    implementation "com.squareup.okhttp3:okhttp:$version.okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$version.okhttp"
+
+    testImplementation "junit:junit:$version.jUnit"
+    androidTestImplementation "androidx.test:runner:$version.testRunnerAndroidX"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$version.espressoCoreAndroidX"
+
+    implementation project(':data')
+    implementation project(':domain')
+}

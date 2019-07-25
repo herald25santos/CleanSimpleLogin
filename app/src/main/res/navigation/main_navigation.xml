@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainNavigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="herald.company.cleanapp.modules.MainFragment"
+        android:label="main_fragment"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_dashboard"
+            app:destination="@id/dashboardFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mainNavigation"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="herald.company.cleanapp.modules.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="herald.company.cleanapp.modules.dashboard.DashboardFragment"
+        android:label="dashboard_fragment"
+        tools:layout="@layout/fragment_dashboard"/>
+
+</navigation>

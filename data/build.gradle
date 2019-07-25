@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+def config = rootProject.ext.config
+android {
+    compileSdkVersion config.compileSdkVersion
+
+
+    defaultConfig {
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner config.androidJUnitRunner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    def version = rootProject.ext.dependenciesVersion
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "com.squareup.retrofit2:retrofit:$version.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$version.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$version.gson"
+
+    implementation "io.reactivex.rxjava2:rxjava:$version.rxJava"
+    implementation "com.f2prateek.rx.preferences2:rx-preferences:$version.rxSharedPreferences"
+    implementation "com.scottyab:secure-preferences-lib:$version.securePreferences"
+
+    // others
+    api "com.jakewharton.timber:timber:$version.timber"
+
+    testImplementation "junit:junit:$version.jUnit"
+    androidTestImplementation "androidx.test:runner:$version.testRunnerAndroidX"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$version.espressoCoreAndroidX"
+
+    implementation project(":domain")
+}
