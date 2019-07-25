@@ -21,4 +21,4 @@ This project use this external libs
 * [Material Design 2.0]
 * [Navigation]
 * [Timber]
-* [Gson](https://github.com/google/gson)
+* [Gson]
