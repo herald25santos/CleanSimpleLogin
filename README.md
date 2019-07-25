@@ -11,7 +11,9 @@ Requirements:
 4. Attach an runnable build scripts can be executed from console, which builds source code to a debug apk allows running through adb. 
 
 To run the script please see the guide link to build apk and install the app directly to the device.
+
 link: https://developer.android.com/studio/build/building-cmdline
+
 script: 
  - ./gradlew assembleDebug
  - ./gradlew installDebug
