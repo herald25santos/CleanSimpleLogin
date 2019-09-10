@@ -1,7 +1,5 @@
 # CleanSimpleLogin
 
-Take home exam in SpiralWorks.
-
 Description: Create an android project with one login page and a welcome page upon login successful, user logins by username & password, data will be summited to a remote server by HTTP based API 
 
 Requirements:  
